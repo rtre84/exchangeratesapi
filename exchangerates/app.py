@@ -6,6 +6,7 @@ from datetime import datetime
 from decimal import Decimal
 from os import getenv
 from xml.etree import ElementTree
+import json as JSON
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from gino.dialects.asyncpg import JSONB
@@ -268,7 +269,7 @@ async def index(request):
 async def fixer_index(request):
     access_key = getenv("ACCESS_KEY")
     r = requests.get('https://data.fixer.io/api/latest?access_key=' + access_key)
-    return json({"details": json.loads(r.content)}, escape_forward_slashes=False)
+    return json({"details": JSON.loads(r.content)}, escape_forward_slashes=False)
 
 
 # Static content
