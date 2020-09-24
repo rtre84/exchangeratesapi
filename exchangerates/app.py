@@ -264,10 +264,10 @@ async def index(request):
 
 
 # Fixer.io
-@app.route("/fixer", methods=["GET"], host="api.exchangeratesapi.io")
+@app.route("/fixer", methods=["GET"])
 async def fixer_index(request):
     access_key = getenv("ACCESS_KEY")
-    r = requests.get('https://data.fixer.io/api/latest?access_key='+access_key)
+    r = requests.get('https://data.fixer.io/api/latest?access_key=' + access_key)
     return json({"details": r.content}, escape_forward_slashes=False)
 
 
