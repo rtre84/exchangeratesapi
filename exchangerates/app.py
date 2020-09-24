@@ -252,7 +252,10 @@ async def exchange_rates(request):
 # api.ExchangeratesAPI.io
 @app.route("/", methods=["GET"], host="api.exchangeratesapi.io")
 async def index(request):
-    return json({"details": "https://exchangeratesapi.io"}, escape_forward_slashes=False)
+    access_key = getenv("ACCESS_KEY")
+    return json({"details": "https://data.fixer.io/api/latest?access_key=" + access_key}, escape_forward_slashes=False)
+
+    # return json({"details": "https://exchangeratesapi.io"}, escape_forward_slashes=False)
 
 
 # Website
