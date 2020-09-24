@@ -268,7 +268,7 @@ async def index(request):
 async def fixer_index(request):
     access_key = getenv("ACCESS_KEY")
     r = requests.get('https://data.fixer.io/api/latest?access_key=' + access_key)
-    return json({"details": r.content}, escape_forward_slashes=True)
+    return json({"details": json.loads(r.content)}, escape_forward_slashes=False)
 
 
 # Static content
