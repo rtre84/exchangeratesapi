@@ -267,8 +267,8 @@ async def index(request):
 @app.route("/fixer", methods=["GET"], host="api.exchangeratesapi.io")
 async def fixer_index(request):
     access_key = getenv("ACCESS_KEY")
-    r = requests.post('https://data.fixer.io/api/latest?access_key='+access_key)
-    return json({"details": r.text}, escape_forward_slashes=False)
+    r = requests.get('https://data.fixer.io/api/latest?access_key='+access_key)
+    return json({"details": r.content}, escape_forward_slashes=False)
 
 
 # Static content
