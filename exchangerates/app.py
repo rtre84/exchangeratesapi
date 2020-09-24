@@ -252,10 +252,7 @@ async def exchange_rates(request):
 # api.ExchangeratesAPI.io
 @app.route("/", methods=["GET"], host="api.exchangeratesapi.io")
 async def index(request):
-    access_key = getenv("ACCESS_KEY")
-    return json({"details": "https://data.fixer.io/api/latest?access_key=" + access_key}, escape_forward_slashes=False)
-
-    # return json({"details": "https://exchangeratesapi.io"}, escape_forward_slashes=False)
+    return json({"details": "https://exchangeratesapi.io"}, escape_forward_slashes=False)
 
 
 # Website
@@ -264,6 +261,13 @@ async def index(request):
     if request.method == "HEAD":
         return html("")
     return await file("./exchangerates/templates/index.html")
+
+
+# Fixer.io
+@app.route("/fixer", methods=["GET"], host="api.exchangeratesapi.io")
+async def index(request):
+    access_key = getenv("ACCESS_KEY")
+    return json({"details": "https://data.fixer.io/api/latest?access_key="+access_key}, escape_forward_slashes=False)
 
 
 @app.route("/fixer/latest", methods=["GET", "HEAD"])
@@ -334,13 +338,6 @@ async def exchange_rates(request, date=None):
     return json(
         {"base": base, "date": exchange_rates.date.strftime("%Y-%m-%d"), "rates": rates}
     )
-
-
-# Fixer.io
-@app.route("/fixer", methods=["GET"], host="api.exchangeratesapi.io")
-async def index(request):
-    access_key = getenv("ACCESS_KEY")
-    return json({"details": "https://data.fixer.io/api/latest?access_key="+access_key}, escape_forward_slashes=False)
 
 
 # Static content
