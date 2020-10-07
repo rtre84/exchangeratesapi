@@ -266,6 +266,7 @@ async def index(request):
 
 # Fixer.io
 @app.route("/fixer", methods=["GET"])
+@cors()
 async def fixer_index(request):
     access_key = getenv("ACCESS_KEY")
     r = requests.get('https://data.fixer.io/api/latest?access_key=' + access_key)
@@ -274,6 +275,7 @@ async def fixer_index(request):
 
 # For historical timeseries calculation
 @app.route("/past_trend", methods=["GET"])
+@cors()
 async def past_trend(request):
     oanda_access_key = getenv("OANDA_ACCESS_KEY")
     r = requests.get('https://www1.oanda.com/rates/api/v2/rates/candles.json?api_key=' + oanda_access_key + '&start_time=2020-05-01T03:00:00+00:00&end_time=2020-06-06T03:00:00+00:00&base=USD&quote=UAH&fields=open&fields=close')
