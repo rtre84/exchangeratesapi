@@ -272,6 +272,13 @@ async def fixer_index(request):
     return json(JSON.loads(r.content), escape_forward_slashes=False)
 
 
+# For historical timeseries calculation
+@app.route("/past_trend", methods=["GET"])
+async def past_trend(request):
+    r = requests.get('https://www1.oanda.com/rates/api/v2/rates/candles.json?api_key=enhuz5hMari0jkZbk0ezBNc5&start_time=2020-01-01T03:00:00+00:00&end_time=2020-06-06T03:00:00+00:00&base=USD&quote=UAH&fields=open&fields=close')
+    return json(JSON.loads(r.content), escape_forward_slashes=False)
+
+
 # Static content
 app.static("/static", "./exchangerates/static")
 app.static("/robots.txt", "./exchangerates/static/robots.txt")
