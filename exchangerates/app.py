@@ -15,6 +15,8 @@ from sanic import Sanic
 from sanic.response import file, html, json, redirect
 
 from exchangerates.utils import Gino, cors, parse_database_url
+from bs4 import BeautifulSoup
+from scraper_api import ScraperAPIClient
 
 HISTORIC_RATES_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml"
 LAST_90_DAYS_RATES_URL = (
@@ -275,11 +277,41 @@ async def fixer_index(request):
 
 # For historical timeseries calculation
 @app.route("/past_trend", methods=["GET"])
-@cors()
 async def past_trend(request):
     oanda_access_key = getenv("OANDA_ACCESS_KEY")
     r = requests.get('https://www1.oanda.com/rates/api/v2/rates/candles.json?api_key=' + oanda_access_key + '&start_time=2020-05-01T03:00:00+00:00&end_time=2020-06-06T03:00:00+00:00&base=USD&quote=UAH&fields=open&fields=close')
     return json(JSON.loads(r.content), escape_forward_slashes=False)
+
+
+# Route to fetch graphs
+#
+# This route should return preferably a cached version of the graph if it exists
+# or a version from cache
+@app.route("/graph", methods=["GET"])
+@cors
+async def graph(request):
+    scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else SCRAPER_API_KEY
+
+    # Example url where pair graph can be fetched
+    # url = 'https://gov.capital/forex/usd-eur/'
+    pair = 'usd-eur'
+    url = 'https://gov.capital/forex/{}/'.format(pair)
+
+    client = ScraperAPIClient(scraper_api_key)
+    request_result = client.get(url, render=True).text
+    soup = BeautifulSoup(request_result)
+
+    # Removing all divs containing ads
+    for ads in soup.find_all("div", {"class": "code-block code-block-2"}):
+        # Removes all ads in fetched page source
+        ads.decompose()
+
+    cleaned_graph_html = '<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>\n\
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>'
+
+    cleaned_graph_html = cleaned_graph_html + soup.find('canvas').next.__str__()
+
+    return html(cleaned_graph_html)
 
 
 # Static content

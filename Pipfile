@@ -13,10 +13,12 @@ gino = "*"
 apscheduler = "*"
 raven = {extras = ["sanic"]}
 blinker = "*"
+scraperapi-sdk = "*"
+bs4 = "*"
 
 [dev-packages]
 pylint = "<2.0.0"
 black = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
