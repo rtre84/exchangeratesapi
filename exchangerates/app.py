@@ -290,7 +290,7 @@ async def past_trend(request):
 @app.route("/graph", methods=["GET"])
 @cors
 async def graph(request):
-    scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else SCRAPER_API_KEY
+    scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else None
 
     # Example url where pair graph can be fetched
     # url = 'https://gov.capital/forex/usd-eur/'
