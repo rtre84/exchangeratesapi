@@ -14,7 +14,7 @@ apscheduler = "*"
 raven = {extras = ["sanic"]}
 blinker = "*"
 scraperapi-sdk = "*"
-bs4 = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 pylint = "<2.0.0"
