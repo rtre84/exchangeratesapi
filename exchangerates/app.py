@@ -31,7 +31,7 @@ app.config.update(
         url=getenv("DATABASE_URL", "postgresql://localhost/exchangerates")
     )
 )
-CORS(app)
+cors = CORS(app, resources={r"/graph": {"origins": "*"}})
 
 
 # Database
@@ -290,7 +290,7 @@ async def past_trend(request):
 #
 # This route should return preferably a cached version of the graph if it exists
 # or a version from cache
-@app.route("/graph", methods=["GET", "OPTIONS"])
+@app.route("/graph", methods=["GET"])
 async def graph(request):
     scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else None
 
