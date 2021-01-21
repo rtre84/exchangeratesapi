@@ -24,7 +24,7 @@ LAST_90_DAYS_RATES_URL = (
 )
 
 
-app = Sanic(name="Currency-Backend")
+app = Sanic(__name__)
 app.config.update(
     parse_database_url(
         url=getenv("DATABASE_URL", "postgresql://localhost/exchangerates")
