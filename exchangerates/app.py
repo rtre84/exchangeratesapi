@@ -291,7 +291,6 @@ async def past_trend(request):
 # This route should return preferably a cached version of the graph if it exists
 # or a version from cache
 @app.route("/graph", methods=["GET"])
-@app.middleware('request')
 async def graph(request):
     scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else None
 
