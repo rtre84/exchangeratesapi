@@ -13,6 +13,7 @@ from gino.dialects.asyncpg import JSONB
 from raven.contrib.sanic import Sentry
 from sanic import Sanic
 from sanic.response import file, html, json, redirect
+from sanic_cors import CORS, cross_origin
 
 from exchangerates.utils import Gino, cors, parse_database_url
 from bs4 import BeautifulSoup
@@ -30,6 +31,8 @@ app.config.update(
         url=getenv("DATABASE_URL", "postgresql://localhost/exchangerates")
     )
 )
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 # Database
 db = Gino(app)
