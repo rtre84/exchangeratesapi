@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 sanic = "*"
+sanic-cors = "*"
 uvloop = "*"
 ujson = "*"
 requests = "*"
