@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 sanic = "*"
+sanic-cors = "*"
 uvloop = "*"
 ujson = "*"
 requests = "*"
@@ -22,3 +23,6 @@ black = "*"
 
 [requires]
 python_version = "3.6.4"
+
+[pipenv]
+allow_prereleases = true
