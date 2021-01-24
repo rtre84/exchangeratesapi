@@ -31,7 +31,7 @@ app.config.update(
         url=getenv("DATABASE_URL", "postgresql://localhost/exchangerates")
     )
 )
-cors = CORS(app, resources={r"/graph/*": {"origins": "*"}})
+cors = CORS(app, resources={r"/graph": {"origins": "*"}})
 
 
 # Database
