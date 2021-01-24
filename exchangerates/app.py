@@ -310,7 +310,7 @@ async def graph(request):
 
     cleaned_graph_html = cleaned_graph_html + soup.find('canvas').next.__str__()
 
-    return html(cleaned_graph_html).body
+    return html(cleaned_graph_html)
 
 
 # Static content
