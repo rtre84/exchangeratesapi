@@ -311,7 +311,7 @@ async def graph(request):
     cleaned_graph_html = cleaned_graph_html + soup.find('canvas').next.__str__()
 
     # return html(cleaned_graph_html)
-    return json({"payload": cleaned_graph_html})
+    return json(cleaned_graph_html)
 
 
 # Static content
