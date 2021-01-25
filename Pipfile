@@ -22,4 +22,5 @@ pylint = "<2.0.0"
 black = "*"
 
 [requires]
-python_version = "3.9.1"
+python_version = "3.6.4"
+#python_version = "3.9.1"
