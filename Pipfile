@@ -10,6 +10,7 @@ ujson = "*"
 requests = "*"
 gunicorn = "*"
 gino = "*"
+gino-sanic = "*"
 apscheduler = "*"
 raven = {extras = ["sanic"]}
 blinker = "*"
