@@ -9,12 +9,12 @@ from xml.etree import ElementTree
 import json as JSON
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from gino.dialects.asyncpg import JSONB
 from raven.contrib.sanic import Sentry
 from sanic import Sanic
 from sanic.response import file, html, json, redirect
 
 from exchangerates.utils import Gino, cors, parse_database_url
+from gino.dialects.asyncpg import JSONB
 from bs4 import BeautifulSoup
 from scraper_api import ScraperAPIClient
 
