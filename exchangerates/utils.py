@@ -5,7 +5,8 @@ from functools import wraps
 from inspect import isawaitable
 
 from sanic.response import BaseHTTPResponse
-from gino.ext.sanic import Gino as GinoBase
+# from gino.ext.sanic import Gino as GinoBase
+from gino import Gino as GinoBase
 
 class Gino(GinoBase):
     async def set_bind(self, bind, loop=None, **kwargs):

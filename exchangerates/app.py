@@ -13,10 +13,11 @@ from raven.contrib.sanic import Sentry
 from sanic import Sanic
 from sanic.response import file, html, json, redirect
 
-from exchangerates.utils import Gino, cors, parse_database_url
-from gino.dialects.asyncpg import JSONB
 from bs4 import BeautifulSoup
 from scraper_api import ScraperAPIClient
+from gino.dialects.asyncpg import JSONB
+from exchangerates.utils import Gino, cors, parse_database_url
+
 
 HISTORIC_RATES_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml"
 LAST_90_DAYS_RATES_URL = (
@@ -24,7 +25,7 @@ LAST_90_DAYS_RATES_URL = (
 )
 
 
-app = Sanic()
+app = Sanic(name='currency_backend')
 app.config.update(
     parse_database_url(
         url=getenv("DATABASE_URL", "postgresql://localhost/exchangerates")
@@ -287,31 +288,31 @@ async def past_trend(request):
 #
 # This route should return preferably a cached version of the graph if it exists
 # or a version from cache
-# @app.route("/graph", methods=["GET"])
-# # @cors
-# async def graph(request):
-#     scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else None
-#
-#     # Example url where pair graph can be fetched
-#     # url = 'https://gov.capital/forex/usd-eur/'
-#     pair = 'usd-eur'
-#     url = 'https://gov.capital/forex/{}/'.format(pair)
-#
-#     client = ScraperAPIClient(scraper_api_key)
-#     request_result = client.get(url, render=True).text
-#     soup = BeautifulSoup(request_result)
-#
-#     # Removing all divs containing ads
-#     for ads in soup.find_all("div", {"class": "code-block code-block-2"}):
-#         # Removes all ads in fetched page source
-#         ads.decompose()
-#
-#     cleaned_graph_html = '<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>\n\
-# <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>'
-#
-#     cleaned_graph_html = cleaned_graph_html + soup.find('canvas').next.__str__()
-#
-#     return html(cleaned_graph_html)
+@app.route("/graph", methods=["GET"])
+@cors
+async def graph(request):
+    scraper_api_key = getenv("SCRAPER_API_KEY") if getenv("SCRAPER_API_KEY") else None
+
+    # Example url where pair graph can be fetched
+    # url = 'https://gov.capital/forex/usd-eur/'
+    pair = 'usd-eur'
+    url = 'https://gov.capital/forex/{}/'.format(pair)
+
+    client = ScraperAPIClient(scraper_api_key)
+    request_result = client.get(url, render=True).text
+    soup = BeautifulSoup(request_result)
+
+    # Removing all divs containing ads
+    for ads in soup.find_all("div", {"class": "code-block code-block-2"}):
+        # Removes all ads in fetched page source
+        ads.decompose()
+
+    cleaned_graph_html = '<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>\n\
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>'
+
+    cleaned_graph_html = cleaned_graph_html + soup.find('canvas').next.__str__()
+
+    return html(cleaned_graph_html)
 
 
 # Static content
